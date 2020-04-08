@@ -1,7 +1,8 @@
-package iti.intake40.covidtracker
+package iti.intake40.covidtracker.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import iti.intake40.covidtracker.R
 
 class MainActivity : AppCompatActivity() {
 
