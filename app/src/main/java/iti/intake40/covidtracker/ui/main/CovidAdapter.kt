@@ -1,4 +1,4 @@
-package iti.intake40.covidtracker.view
+package iti.intake40.covidtracker.ui.main
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,11 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import iti.intake40.covidtracker.R
-import iti.intake40.covidtracker.model.CovidModel
+import iti.intake40.covidtracker.db.model.CovidModel
 
 class CovidAdapter(private var dataList: List<CovidModel>, private val context: Context) : RecyclerView.Adapter<CovidAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_home, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(context).inflate(
+                R.layout.list_item_home,
+                parent,
+                false
+            )
+        )
     }
     override fun getItemCount(): Int {
         return dataList.size
@@ -26,7 +32,10 @@ class CovidAdapter(private var dataList: List<CovidModel>, private val context: 
         holder.newcasesTextView.text=covidModel.newCases
     }
 
-
+    internal fun setCovid(dataLists: List<CovidModel>) {
+        this.dataList = dataLists
+        notifyDataSetChanged()
+    }
     class ViewHolder(itemLayoutView: View) : RecyclerView.ViewHolder(itemLayoutView) {
         lateinit var countryTextView: TextView
         lateinit var casesTextView: TextView
