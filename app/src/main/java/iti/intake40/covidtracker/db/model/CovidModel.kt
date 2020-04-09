@@ -1,5 +1,6 @@
 package iti.intake40.covidtracker.db.model
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,7 +10,7 @@ import com.google.gson.annotations.SerializedName
 const val ID= 0
 @Entity(tableName = "countries_stat")
 data class CovidModel(
-    @PrimaryKey(autoGenerate = true) val id: Int = ID,
+
 
     @ColumnInfo(name = "activeCases")
     @Expose
@@ -19,7 +20,7 @@ data class CovidModel(
     @ColumnInfo(name = "countryName")
     @Expose
     @SerializedName("country_name")
-    val countryName : String? =null,
+    val countryName : String,
 
     @ColumnInfo(name = "newCases")
     @Expose
@@ -46,4 +47,7 @@ data class CovidModel(
 
 
 
-)
+){
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
+}

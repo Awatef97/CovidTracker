@@ -1,4 +1,4 @@
-package iti.intake40.covidtracker.data
+package iti.intake40.covidtracker.db.remoteDatabase
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET

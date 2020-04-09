@@ -1,10 +1,7 @@
-package iti.intake40.covidtracker.db
+package iti.intake40.covidtracker.repository
 
-import android.app.Application
-import android.os.AsyncTask
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.room.RoomDatabase
+import iti.intake40.covidtracker.db.localDatabase.CovidDao
 import iti.intake40.covidtracker.db.model.CovidModel
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -18,8 +15,9 @@ class Repository(private val covidDao: CovidDao) {
 
     suspend fun insert(covidModel: CovidModel) {
         covidDao.insert(covidModel)
-        println(alldata)
+
 
     }
+
 
 }

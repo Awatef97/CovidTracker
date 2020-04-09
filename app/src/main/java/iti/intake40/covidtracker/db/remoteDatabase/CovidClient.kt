@@ -1,4 +1,4 @@
-package iti.intake40.covidtracker.data
+package iti.intake40.covidtracker.db.remoteDatabase
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

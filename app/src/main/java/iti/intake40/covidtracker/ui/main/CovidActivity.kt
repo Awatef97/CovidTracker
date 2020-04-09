@@ -7,24 +7,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.intake40.covidtracker.R
-import iti.intake40.covidtracker.data.CovidClient
-import iti.intake40.covidtracker.db.model.CovidModel
-import okhttp3.ResponseBody
-import org.json.JSONArray
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
-
 
 
 class CovidActivity : AppCompatActivity() {
     private lateinit var covidViewModel:CovidViewModel
     // lateinit var covidViewModel:CovidViewModel
-    var  dataList = ArrayList<CovidModel>()
+   // var  dataList = ArrayList<CovidModel>()
     lateinit var recyclerView: RecyclerView
-     var adapter= CovidAdapter(dataList,this)
+     //var adapter= CovidAdapter(dataList,this)
     override fun onCreate(savedInstanceState: Bundle?) {
         //covidViewModel = ViewModelProviders.of(this).get(covidViewModel!!::class.java)
         super.onCreate(savedInstanceState)
@@ -32,16 +22,19 @@ class CovidActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_covid)
         recyclerView = findViewById(R.id.recycle_view)
-        recyclerView.adapter= CovidAdapter(dataList, this)
-        recyclerView.layoutManager=LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+
         covidViewModel = ViewModelProvider(this).get(CovidViewModel::class.java)
+         covidViewModel.getData()
         covidViewModel.alldata.observe(this, Observer { covids ->
+
             // Update the cached copy of the words in the adapter.
-            covids?.let { adapter.setCovid(it)
+            covids?.let {
+                recyclerView.adapter= CovidAdapter(it, this)
+                recyclerView.layoutManager=LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
                }
         })
-        covidViewModel.getData()
-        recyclerView.adapter?.notifyDataSetChanged()
+
+       // recyclerView.adapter?.notifyDataSetChanged()
         //getData()
 
     }
