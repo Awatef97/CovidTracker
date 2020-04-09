@@ -1,5 +1,6 @@
 package iti.intake40.covidtracker.data
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,8 +16,10 @@ object CovidClient {
                 .setLenient()
                 .create()
             val interceptor = HttpLoggingInterceptor()
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
             val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
 
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
