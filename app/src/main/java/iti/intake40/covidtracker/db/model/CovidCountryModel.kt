@@ -1,54 +1,46 @@
 package iti.intake40.covidtracker.db.model
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-const val ID= 0
-@Entity(tableName = "countries_stat")
-data class CovidModel(
 
-
-    @ColumnInfo(name = "activeCases")
-    @Expose
-    @SerializedName("active_cases")
-    val activeCases: String? =null,
+const val countryID = 0
+@Entity(tableName = "latest_stat_by_country")
+data class CovidCountryModel(
 
     @ColumnInfo(name = "countryName")
     @Expose
     @SerializedName("country_name")
-    val countryName : String,
+    val countryName: String? =null,
+
+    @ColumnInfo(name = "totalCases")
+    @Expose
+    @SerializedName("total_cases")
+    val totalCases : String,
 
     @ColumnInfo(name = "newCases")
     @Expose
     @SerializedName("new_cases")
     val newCases : String? =null,
 
-    @ColumnInfo(name = "deaths")
+    @ColumnInfo(name = "totalDeaths")
     @Expose
-    @SerializedName("deaths")
-    val deaths : String? =null,
+    @SerializedName("total_deaths")
+    val totalDeaths : String? =null,
 
-   /* @Expose
-    @SerializedName("region")
-    val region : String,*/
+    @ColumnInfo(name = "newDeaths")
+    @Expose
+    @SerializedName("new_deaths")
+    val newDeaths: String? =null,
 
     @ColumnInfo(name = "totalRecovered")
     @Expose
     @SerializedName("total_recovered")
-    val totalRecovered : String? =null
-
-    /*@Expose
-    @SerializedName("new_deaths")
-    val newDeaths : String*/
-
-
-
-){
+    val totalRecovered: String? =null)
+{
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true) var id: Int = 0
-
 }

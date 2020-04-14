@@ -2,13 +2,12 @@ package iti.intake40.covidtracker.ui.main
 
 import android.app.Application
 import androidx.lifecycle.*
-import iti.intake40.covidtracker.data.CovidClient
-import iti.intake40.covidtracker.db.CovidDataBase
-import iti.intake40.covidtracker.db.Repository
+import iti.intake40.covidtracker.db.remoteDatabase.CovidClient
+import iti.intake40.covidtracker.db.localDatabase.CovidDataBase
+import iti.intake40.covidtracker.db.model.CovidCountryModel
+import iti.intake40.covidtracker.repository.Repository
 import iti.intake40.covidtracker.db.model.CovidModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
@@ -18,13 +17,13 @@ import retrofit2.Response
 
 class CovidViewModel(application: Application) :  AndroidViewModel(application) {
     var  dataList = MutableLiveData<CovidModel>()
+    private val context: CoroutineScope = MainScope()
     private val repository: Repository
      var alldata  : LiveData<List<CovidModel>>
             init{
-                val covidDao = CovidDataBase.getDatabase(application).covidDao()
+                val covidDao = CovidDataBase.getDatabase(application,context).covidDao()
                 repository = Repository(covidDao)
                 alldata = repository.alldata
-
 
             }
 
@@ -39,13 +38,13 @@ class CovidViewModel(application: Application) :  AndroidViewModel(application) 
                 val size = arr.length()
                 for(i in 0 until  size-1){
                     val detail = arr.getJSONObject(i)
-                    val model = CovidModel(0,detail.getString("active_cases"),detail.getString("country_name"),
+                    val model = CovidModel(detail.getString("active_cases"),detail.getString("country_name"),
                         detail.getString("new_cases"),detail.getString("deaths"),
                         detail.getString("total_recovered"))
-                  //  dataList.postValue(model)
-                    dataList.value=model
-                    insert(dataList.value!!)
-                    //println(dataList.value!!)
+
+                    dataList.postValue(model)
+
+                    insert(model)
 
                 }
 
@@ -63,6 +62,9 @@ class CovidViewModel(application: Application) :  AndroidViewModel(application) 
     fun insert(covidModel: CovidModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(covidModel)
     }
+
+
+
 
 
 }

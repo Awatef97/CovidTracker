@@ -81,5 +81,7 @@ dependencies {
     //shorouk start
     def work_version = "1.0.1"
     implementation "android.arch.work:work-runtime-ktx:$work_version"
+    apply plugin: "kotlin-android-extensions"
+    implementation "com.hbb20:ccp:2.2.2"
     //shorouk end
 }
