@@ -52,8 +52,8 @@ class CovidActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.getItemId()
         if (id == R.id.action_one) {
-            val intent = Intent(applicationContext, SettingsActivity::class.java);
-            startActivity(intent);
+            val intent = Intent(applicationContext, SettingsActivity::class.java)
+            startActivity(intent)
         }
             return true
         }
