@@ -30,6 +30,7 @@ class Repository(private val covidDao: CovidDao) {
 
 
     suspend fun insert(covidModel: CovidModel) {
+        covidDao.delete()
         covidDao.insert(covidModel)
 
     }

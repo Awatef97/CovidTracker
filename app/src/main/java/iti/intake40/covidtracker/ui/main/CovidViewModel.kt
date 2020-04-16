@@ -41,11 +41,11 @@ class CovidViewModel(application: Application) :  AndroidViewModel(application) 
                     val model = CovidModel(detail.getString("active_cases"),detail.getString("country_name"),
                         detail.getString("new_cases"),detail.getString("deaths"),
                         detail.getString("total_recovered"))
+                    if(detail.getString("country_name")!="") {
+                        dataList.postValue(model)
 
-                    dataList.postValue(model)
-
-                    insert(model)
-
+                        insert(model)
+                    }
 
                 }
 

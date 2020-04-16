@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">CovidTracker</string>
     <!--Awatef start-->
+    <string name="CountryName">CountryName</string>
+    <string name="Cases">Cases</string>
+    <string name="NewCases">NewCases</string>
+    <string name="TotalRecovered">TotalRecovered</string>
+    <string name="DeathCases">DeathCases</string>
+    <string name="search">search</string>
     <!--Awatef end-->
     <!--shorouk start-->
     <!--shorouk end-->
