@@ -42,7 +42,7 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val confirmBtn = findViewById(R.id.confirmationBtn) as Button
 
 
-        twoHoursBtn.setChecked(true);
+        twoHoursBtn.setChecked(true)
 
         confirmBtn.setOnClickListener {
             if (countryName != null) {

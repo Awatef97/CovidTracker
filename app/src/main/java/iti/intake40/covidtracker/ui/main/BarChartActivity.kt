@@ -2,9 +2,9 @@ package iti.intake40.covidtracker.ui.main
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -15,20 +15,21 @@ import kotlinx.android.synthetic.main.activity_bar_chart.*
 
 
 class BarChartActivity : AppCompatActivity() {
-    var ss: String? = null
-    var yy: String? = null
-    var zz: String? = null
-    var xx: String? = null
+    var cases: String? = null
+    var deathCases: String? = null
+    var newCases: String? = null
+    var totalRecovered: String? = null
+
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bar_chart)
-         ss= intent.getStringExtra("casesTextView")
-         yy = intent.getStringExtra("deathsTextView")
-        xx = intent.getStringExtra("recoveredTextView")
-         zz = intent.getStringExtra("newcasesTextView")
 
+         cases= intent.getStringExtra("casesTextView")
+         deathCases = intent.getStringExtra("deathsTextView")
+        totalRecovered = intent.getStringExtra("recoveredTextView")
+         newCases = intent.getStringExtra("newcasesTextView")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBarChart()
@@ -38,38 +39,49 @@ class BarChartActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun setBarChart() {
         val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(0f, ss!!.toFloat()))
-        entries.add(BarEntry(2f, yy!!.toFloat()))
-        entries.add(BarEntry(4f, xx!!.toFloat()))
-        entries.add(BarEntry(6f, zz!!.toFloat()))
+
+        entries.add(BarEntry(0f, cases!!.toFloat()))
+        entries.add(BarEntry(2f, newCases!!.toFloat()))
+        entries.add(BarEntry(4f, totalRecovered!!.toFloat()))
+        entries.add(BarEntry(6f, deathCases!!.toFloat()))
 
 
-        val barDataSet = BarDataSet(entries, "Cells")
+        val y: YAxis = barChart.getAxisLeft()
+        y.setAxisMinValue(0f)
 
-        val labels = ArrayList<String>()
-        labels.add("death")
-        labels.add("cases")
-        labels.add("recovered")
-        labels.add("New Cases")
-        barChart.getXAxis().setValueFormatter( IndexAxisValueFormatter(labels))
+        val barDataSet = BarDataSet(entries, "Cases")
+
+        val xAxisData = arrayOf(
+            "Total cases",
+            " ",
+            "New Cases",
+            " ",
+            "Recovered Cases",
+            " ",
+            "Death cases"
+        )
 
 
+
+
+// Set the value formatter
+        val xAxis: XAxis = barChart.getXAxis()
+        xAxis.valueFormatter = IndexAxisValueFormatter(xAxisData)
        val data = BarData(barDataSet)
 
         barChart.data = data // set the data and list of lables into chart
 //        barChart.setDescription()  // set the description
-        barChart.description.text = "cases"
+        barChart.description.text = " "
 
         barChart.axisRight.isEnabled = false
-        barChart.xAxis.axisMaximum = 10+0.1f
+//        barChart.xAxis.axisMaximum = 10+0.1f
 
-//   barChart.yChartMax.times(500000.toDouble())
-//        barChart.minimumHeight.times(100.toDouble())
+
 
         //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
         barDataSet.color = resources.getColor(R.color.redAccent)
 
-        barChart.animateY(5000)
+        barChart.animateY(4000)
 
     }
 }

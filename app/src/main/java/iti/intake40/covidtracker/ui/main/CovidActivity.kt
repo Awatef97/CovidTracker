@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,11 +19,12 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import iti.intake40.covidtracker.R
 import iti.intake40.covidtracker.WorkerNotification
+import iti.intake40.covidtracker.db.model.CovidModel
+import kotlinx.android.synthetic.main.activity_covid.*
 import java.util.concurrent.TimeUnit
 
 
 class CovidActivity : AppCompatActivity() {
-
     private lateinit var covidViewModel: CovidViewModel
     lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +32,8 @@ class CovidActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_covid)
         recyclerView = findViewById(R.id.recycle_view)
+
+
         covidViewModel = ViewModelProvider(this).get(CovidViewModel::class.java)
         covidViewModel.getData()
         covidViewModel.alldata.observe(this, Observer { covids ->
@@ -39,6 +45,7 @@ class CovidActivity : AppCompatActivity() {
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             }
         })
+
 
     }
 
@@ -57,7 +64,6 @@ class CovidActivity : AppCompatActivity() {
         }
             return true
         }
-
 
 
 }

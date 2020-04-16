@@ -3,10 +3,10 @@ package iti.intake40.covidtracker.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.list_item_home.view.*
 class CovidAdapter(private var dataList: List<CovidModel>, private val context: Context) :
     RecyclerView.Adapter<CovidAdapter.ViewHolder>() {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(context).inflate(
@@ -26,11 +27,13 @@ class CovidAdapter(private var dataList: List<CovidModel>, private val context: 
                 false
             )
         )
+
     }
 
     override fun getItemCount(): Int {
         return dataList.size
     }
+
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -43,9 +46,11 @@ class CovidAdapter(private var dataList: List<CovidModel>, private val context: 
         holder.newcasesTextView.text = covidModel.newCases
     }
 
+
     internal fun setCovid(dataLists: List<CovidModel>) {
         this.dataList = dataLists
         notifyDataSetChanged()
+
     }
 
     class ViewHolder(itemLayoutView: View) : RecyclerView.ViewHolder(itemLayoutView) {
@@ -64,23 +69,27 @@ class CovidAdapter(private var dataList: List<CovidModel>, private val context: 
             newcasesTextView = itemLayoutView.findViewById(R.id.new_cases_txv)
             itemView.statisticsBtn.setOnClickListener {
                 adapterPosition
-                Log.d("s",adapterPosition.toString())
-                val intent = Intent(itemView.context, BarChartActivity::class.java);
 
-                intent.putExtra("casesTextView",casesTextView.text)
-                intent.putExtra("deathsTextView",deathsTextView.text)
-                intent.putExtra("recoveredTextView",recoveredTextView.text)
-                intent.putExtra("newcasesTextView",newcasesTextView.text)
-                Log.d("ddddddddddd",newcasesTextView.text.toString())
+                val intent = Intent(itemView.context, BarChartActivity::class.java);
+             val cases =  casesTextView.text.toString().replace(",", "")
+                val deathCases = deathsTextView.text.toString().replace(",", "")
+                val recoveredCases = recoveredTextView.text.toString().replace(",", "")
+                val newCases = newcasesTextView.text.toString().replace(",", "")
+                intent.putExtra("casesTextView",cases)
+                intent.putExtra("deathsTextView",deathCases)
+                intent.putExtra("recoveredTextView",recoveredCases)
+                intent.putExtra("newcasesTextView",newCases)
                 startActivity(itemView.context,intent, Bundle.EMPTY)
 
 
             }
 
+
         }
 
 
     }
+
 }
 
 

@@ -85,6 +85,7 @@ dependencies {
     implementation "com.hbb20:ccp:2.2.2"
     implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    apply plugin: 'com.android.application'
     //shorouk end
 }

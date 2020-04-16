@@ -46,6 +46,7 @@ class CovidViewModel(application: Application) :  AndroidViewModel(application) 
 
                     insert(model)
 
+
                 }
 
 

@@ -1,5 +1,6 @@
 package iti.intake40.covidtracker.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import iti.intake40.covidtracker.db.localDatabase.CovidDao
 import iti.intake40.covidtracker.db.model.CovidCountryModel
 import iti.intake40.covidtracker.db.model.CovidModel
 import iti.intake40.covidtracker.db.remoteDatabase.CovidClient
+import iti.intake40.covidtracker.db.remoteDatabase.NotificationObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,9 +33,5 @@ class Repository(private val covidDao: CovidDao) {
         covidDao.insert(covidModel)
 
     }
-
-
-
-
 
 }

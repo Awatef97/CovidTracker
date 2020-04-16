@@ -6,11 +6,15 @@ import android.content.Context
 import android.provider.SyncStateContract.Helpers.insert
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.LiveData
 import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import iti.intake40.covidtracker.db.localDatabase.CovidDataBase
 import iti.intake40.covidtracker.db.model.CovidCountryModel
+import iti.intake40.covidtracker.db.model.CovidModel
 import iti.intake40.covidtracker.db.remoteDatabase.NotificationObject
+import iti.intake40.covidtracker.repository.Repository
 import iti.intake40.covidtracker.ui.main.CovidAdapter
 import iti.intake40.covidtracker.ui.main.CovidViewModel
 import iti.intake40.covidtracker.ui.main.SettingsActivity
