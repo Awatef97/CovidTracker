@@ -1,6 +1,7 @@
 package iti.intake40.covidtracker.ui.main
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -9,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,11 +38,12 @@ class CovidActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recycle_view)
 
         covidViewModel = ViewModelProvider(this).get(CovidViewModel::class.java)
+
       //while (flag) {
 
        if (covidViewModel.alldata.value == null && !Network.checkNetworkState(applicationContext)) {
            search_view.setVisibility(View.GONE)
-           Toast.makeText(applicationContext, "افتح النت ي حلوووووووووووف", Toast.LENGTH_SHORT)
+           Toast.makeText(applicationContext, "please open the internet at the first time you install the app", Toast.LENGTH_SHORT)
                .show()
            finish()
        }
@@ -59,9 +62,31 @@ class CovidActivity : AppCompatActivity() {
 
            }
        })
+       itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this, R.color.colorPrimary))
+       itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
+
+       itemsswipetorefresh.setOnRefreshListener {
 
 
 
+
+           covidViewModel.alldata.observe(this, Observer { covids ->
+
+               // Update the cached copy of the words in the adapter.
+               covids?.let {
+
+                   recyclerView.adapter = CovidAdapter(it as MutableList<CovidModel>, this)
+
+                   recyclerView.layoutManager =
+                       LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                   search(search_view, recyclerView.adapter as CovidAdapter)
+
+
+               }
+           })
+           itemsswipetorefresh.isRefreshing = false
+
+       }
         // recyclerView.adapter?.notifyDataSetChanged()
         //getData()
 
