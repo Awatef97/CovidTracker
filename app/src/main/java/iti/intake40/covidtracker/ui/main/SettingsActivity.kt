@@ -3,22 +3,18 @@ package iti.intake40.covidtracker.ui.main
 import android.os.Bundle
 import android.widget.Button
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.hbb20.CountryCodePicker
 import iti.intake40.covidtracker.R
-import iti.intake40.covidtracker.WorkerNotification
-import kotlinx.android.synthetic.main.activity_settings.*
-import java.util.Locale.US
+import iti.intake40.covidtracker.Work.WorkerNotification
 import java.util.concurrent.TimeUnit
 
 
 class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeListener  {
     companion object {
         var countryName : String? = null
+        var subscribeFlag : Boolean = true
 
     }
     val workManager = WorkManager.getInstance()
@@ -27,9 +23,7 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_settings)
-      val params = window.attributes
         window.setLayout(1200, 1400)
 
         ccp = findViewById(R.id.country_code_picker)
@@ -38,15 +32,16 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val twoHoursBtn = findViewById(R.id.twoHours) as RadioButton
         val fiveHoursBtn = findViewById(R.id.fiveHours) as RadioButton
         val oneDayBtn = findViewById(R.id.oneDay) as RadioButton
-        val noneBtn = findViewById(R.id.noNotification) as RadioButton
         val confirmBtn = findViewById(R.id.confirmationBtn) as Button
+        if(subscribeFlag == false){
+            confirmBtn.text = "UNSUBSCRIBE"
+        }
 
 
         twoHoursBtn.setChecked(true)
 
         confirmBtn.setOnClickListener {
-            if (countryName != null) {
-
+            if (countryName != null && confirmBtn.text == "SUBSCRIBE" ) {
                 if (oneHourBtn.isChecked) {
                     workManager.cancelAllWork()
                     sendWorkRequest(1L)
@@ -58,23 +53,25 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                 } else if (fiveHoursBtn.isChecked) {
                     workManager.cancelAllWork()
                     sendWorkRequest(5L)
+
                     finish()
                 } else if (oneDayBtn.isChecked) {
                     workManager.cancelAllWork()
                     sendWorkRequest(24L)
                     finish()
-                } else if (noneBtn.isChecked) {
-                    workManager.cancelAllWork()
+                }
+              if (countryName == null) {
                     finish()
                 }
-                else if (countryName == null) {
-                    finish()
-                }
-
+            }
+            if ( confirmBtn.text == "UNSUBSCRIBE" ) {
+                workManager.cancelAllWork()
+                subscribeFlag = true
+                finish()
             }
         }
-    }
 
+    }
     override fun onCountrySelected() {
         countryName =ccp!!.selectedCountryName
         if (countryName == "United States"){
@@ -83,8 +80,18 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     }
 
   fun sendWorkRequest(num: Long){
+      subscribeFlag = false
+//      val constraints = Constraints.Builder()
+//          .setRequiredNetworkType(NetworkType.CONNECTED)
+//          .apply {
+//              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                  setRequiresDeviceIdle(true)
+//              }
+//          }
+//          .build()
       val saveRequest =
           PeriodicWorkRequestBuilder<WorkerNotification>(num, TimeUnit.HOURS)
+//              .setConstraints(constraints)
               .build()
 
       workManager.enqueueUniquePeriodicWork(

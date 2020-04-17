@@ -1,23 +1,9 @@
 package iti.intake40.covidtracker.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import iti.intake40.covidtracker.db.localDatabase.CovidDao
-import iti.intake40.covidtracker.db.model.CovidCountryModel
 import iti.intake40.covidtracker.db.model.CovidModel
-import iti.intake40.covidtracker.db.remoteDatabase.CovidClient
-import iti.intake40.covidtracker.db.remoteDatabase.NotificationObject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import org.json.JSONArray
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO

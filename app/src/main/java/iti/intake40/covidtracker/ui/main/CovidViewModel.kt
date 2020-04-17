@@ -49,14 +49,11 @@ class CovidViewModel(application: Application) :  AndroidViewModel(application) 
 
                 }
 
-
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                println("bbbbbbbbbb")
-
+                println("Failed")
             }
-
         })
         return dataList
     }

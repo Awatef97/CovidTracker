@@ -41,12 +41,12 @@ class CovidActivity : AppCompatActivity() {
 
       //while (flag) {
 
-       if (covidViewModel.alldata.value == null && !Network.checkNetworkState(applicationContext)) {
-           search_view.setVisibility(View.GONE)
-           Toast.makeText(applicationContext, "please open the internet at the first time you install the app", Toast.LENGTH_SHORT)
-               .show()
-           finish()
-       }
+//       if (covidViewModel.alldata.value == null && !Network.checkNetworkState(applicationContext)) {
+//           search_view.setVisibility(View.GONE)
+//           Toast.makeText(applicationContext, "please open the internet at the first time you install the app", Toast.LENGTH_SHORT)
+//               .show()
+//           finish()
+//       }
        //}
        covidViewModel.alldata.observe(this, Observer { covids ->
 

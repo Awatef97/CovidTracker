@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:background="@drawable/statistics" />
+                android:background="@drawable/ccp_down_arrow" />
 
         </LinearLayout>
 
