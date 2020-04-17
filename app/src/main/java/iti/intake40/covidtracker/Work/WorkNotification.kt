@@ -11,7 +11,6 @@ import androidx.work.WorkerParameters
 import iti.intake40.covidtracker.R
 import iti.intake40.covidtracker.db.model.CovidCountryModel
 import iti.intake40.covidtracker.db.remoteDatabase.CovidClient
-import iti.intake40.covidtracker.db.remoteDatabase.NotificationObject
 import iti.intake40.covidtracker.ui.main.CovidViewModel
 import iti.intake40.covidtracker.ui.main.SettingsActivity
 import okhttp3.ResponseBody
@@ -72,7 +71,7 @@ class WorkerNotification(context: Context, workerParams: WorkerParameters) : Wor
     }
 
     fun getCountryData(country:String) {
-        val call: Call<ResponseBody> = NotificationObject.getNotificationClient.getRowData(country)
+        val call: Call<ResponseBody> = CovidClient.getClient.getRowData(country)
         call.enqueue(object : Callback<ResponseBody> {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
