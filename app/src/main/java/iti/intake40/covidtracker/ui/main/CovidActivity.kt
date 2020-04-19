@@ -114,11 +114,6 @@ class CovidActivity : AppCompatActivity() {
         })
     }
 
-//private fun isSubscribed(boolean:Boolean){
-//    when(boolean){
-//        true-> AppPreferences.
-//
-//    }
 
 
 
