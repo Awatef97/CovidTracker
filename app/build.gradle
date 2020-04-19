@@ -9,6 +9,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
+        resConfigs "en"
         applicationId "iti.intake40.covidtracker"
         minSdkVersion 15
         targetSdkVersion 29

@@ -1,13 +1,21 @@
 <resources>
     <string name="app_name">CovidTracker</string>
     <!--Awatef start-->
-    <string name="CountryName">CountryName</string>
+    <string name="CountryName">Country Name</string>
     <string name="Cases">Cases</string>
-    <string name="NewCases">NewCases</string>
-    <string name="TotalRecovered">TotalRecovered</string>
-    <string name="DeathCases">DeathCases</string>
+    <string name="NewCases">New Cases</string>
+    <string name="TotalRecovered">Total Recovered</string>
+    <string name="DeathCases">Death Cases</string>
     <string name="search">search</string>
     <string name="ShowStatistics">Show Statistics</string>
+    <string name="connectionToast">please check your internet connection</string>
+    <string name="subscribe">"You can subscribe on one country and get notification,"\n"Please Select how many time you want to see it. "</string>
+    <string name="OneHour">One Hour</string>
+    <string name="fiveHours">5 Hours</string>
+    <string name="Default">Default (2 Hours)</string>
+    <string name="OneDay">One Day</string>
+    <string name="None">None</string>
+    <string name="Confirm">Confirm</string>
     <!--Awatef end-->
     <!--shorouk start-->
     <!--shorouk end-->
