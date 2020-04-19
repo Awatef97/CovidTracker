@@ -8,11 +8,13 @@ import androidx.core.app.NotificationCompat
 import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import iti.intake40.covidtracker.AppPreferences
 import iti.intake40.covidtracker.R
 import iti.intake40.covidtracker.db.model.CovidCountryModel
 import iti.intake40.covidtracker.db.remoteDatabase.CovidClient
 import iti.intake40.covidtracker.ui.main.CovidViewModel
 import iti.intake40.covidtracker.ui.main.SettingsActivity
+import iti.intake40.covidtracker.ui.main.SettingsActivity.Companion.subscribeFlag
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
@@ -25,24 +27,22 @@ import java.util.*
 class WorkerNotification(context: Context, workerParams: WorkerParameters) : Worker(context,
     workerParams
 ) {
+
     var notificationId = Random().nextInt(10000)
-    var countryTitle: String? =null
-    var countryTotalCases: String? =null
-    var countryNewCases: String? =null
-    var countryTotalDeaths: String? =null
-    var countryNewDeaths: String? =null
-    var countryTotalRecovered : String? =null
-
-
-    private lateinit var covidViewModel: CovidViewModel
     companion object {
         val work = "workNotification"
+        var countryTitle: String? = null
+        var countryTotalCases: String? = null
+        var countryNewCases: String? = null
+        var countryTotalDeaths: String? = null
+        var countryNewDeaths: String? = null
+        var countryTotalRecovered: String? = null
 
     }
 
 
     override fun doWork(): ListenableWorker.Result {
-        SettingsActivity.countryName?.let { getCountryData(it) }
+      checkCountryName(AppPreferences.countryName)
         return ListenableWorker.Result.success()
     }
 
@@ -63,14 +63,17 @@ class WorkerNotification(context: Context, workerParams: WorkerParameters) : Wor
 
         val notification = NotificationCompat.Builder(applicationContext, channelId)
             .setContentTitle(countryTitle)
-            .setStyle(NotificationCompat.BigTextStyle().bigText("New Cases "+ countryNewCases + "\nNew Deaths " + countryNewDeaths +"\nTotal Cases " + countryTotalCases + "\nTotal Deaths "+ countryTotalDeaths + "\nTotal Recovered " + countryTotalRecovered))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("New Cases " + countryNewCases + "\nNew Deaths " + countryNewDeaths + "\nTotal Cases " + countryTotalCases + "\nTotal Deaths " + countryTotalDeaths + "\nTotal Recovered " + countryTotalRecovered)
+            )
             .setSmallIcon(R.drawable.ic_launcher_background)
 
 
         notificationManager.notify(notificationId, notification.build())
     }
 
-    fun getCountryData(country:String) {
+    fun getCountryData(country: String) {
         val call: Call<ResponseBody> = CovidClient.getClient.getRowData(country)
         call.enqueue(object : Callback<ResponseBody> {
 
@@ -81,14 +84,14 @@ class WorkerNotification(context: Context, workerParams: WorkerParameters) : Wor
                 val arr: JSONArray = obj.getJSONArray("latest_stat_by_country")
 
                 val size = arr.length()
-                Log.d("success",size.toString())
-                for (i in 0 until  1) {
+                Log.d("success", size.toString())
+                for (i in 0 until 1) {
                     val detail = arr.getJSONObject(i)
 
                     val model = CovidCountryModel(
                         detail.getString("country_name"), detail.getString("total_cases"),
                         detail.getString("new_cases"), detail.getString("total_deaths"),
-                        detail.getString("new_deaths"),detail.getString("total_recovered")
+                        detail.getString("new_deaths"), detail.getString("total_recovered")
                     )
 
 
@@ -121,17 +124,60 @@ class WorkerNotification(context: Context, workerParams: WorkerParameters) : Wor
                     } else {
                         countryTotalRecovered = model.totalRecovered
                     }
-                    sendNotification()
+
+
+                   checkSharedPref(subscribeFlag)
+
+
                 }
             }
 
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("fail","failed")
+                Log.d("fail", "failed")
             }
         })
 
 
     }
 
-}
+    fun checkSharedPref(boolean: Boolean) {
+        when (boolean) {
+            true -> if (AppPreferences.totalCases != countryTotalCases || AppPreferences.newCases != countryNewCases || AppPreferences.totalDeathCases != countryTotalDeaths || AppPreferences.newDeathCases != countryNewDeaths || AppPreferences.recoveredCases != countryTotalRecovered) {
+                sendNotification()
+                AppPreferences.countryName = countryTitle
+                AppPreferences.totalCases = countryTotalCases
+                AppPreferences.newCases = countryNewCases
+                AppPreferences.newDeathCases = countryNewDeaths
+                AppPreferences.totalDeathCases = countryTotalDeaths
+                AppPreferences.recoveredCases = countryTotalRecovered
+                AppPreferences.isSubscribed = subscribeFlag
+
+            }
+
+            else -> {
+                AppPreferences.countryName = ""
+                AppPreferences.totalCases = ""
+                AppPreferences.newCases = ""
+                AppPreferences.newDeathCases = ""
+                AppPreferences.totalDeathCases = ""
+                AppPreferences.recoveredCases = ""
+                AppPreferences.isSubscribed = SettingsActivity.subscribeFlag
+
+            }
+
+        }
+    }
+
+    fun checkCountryName(str: String?) {
+        when (str) {
+            "" -> SettingsActivity.countryName?.let { getCountryData(it) }
+
+
+            else ->  AppPreferences.countryName?.let { getCountryData(it) }
+
+            }
+
+        }
+    }
+

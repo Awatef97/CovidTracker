@@ -6,6 +6,7 @@ import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.*
 import com.hbb20.CountryCodePicker
+import iti.intake40.covidtracker.AppPreferences
 import iti.intake40.covidtracker.R
 import iti.intake40.covidtracker.Work.WorkerNotification
 import java.util.concurrent.TimeUnit
@@ -14,10 +15,37 @@ import java.util.concurrent.TimeUnit
 class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeListener  {
     companion object {
         var countryName : String? = null
-        var subscribeFlag : Boolean = true
+        var subscribeFlag : Boolean = false
+        fun checkSharedPref(boolean: Boolean) {
+            when (boolean) {
+                true -> if (AppPreferences.totalCases != WorkerNotification.countryTotalCases || AppPreferences.newCases != WorkerNotification.countryNewCases || AppPreferences.totalDeathCases != WorkerNotification.countryTotalDeaths || AppPreferences.newDeathCases != WorkerNotification.countryNewDeaths || AppPreferences.recoveredCases != WorkerNotification.countryTotalRecovered) {
+                    WorkerNotification.countryTitle = AppPreferences.countryName
+                    WorkerNotification.countryTotalCases = AppPreferences.totalCases
+                     WorkerNotification.countryNewCases = AppPreferences.newCases
+                     WorkerNotification.countryNewDeaths = AppPreferences.newDeathCases
+                    WorkerNotification.countryTotalDeaths = AppPreferences.totalDeathCases
+                    WorkerNotification.countryTotalRecovered =  AppPreferences.recoveredCases
+                    subscribeFlag = AppPreferences.isSubscribed
 
-    }
-    val workManager = WorkManager.getInstance()
+                }
+
+                else -> {
+                    AppPreferences.countryName = ""
+                    AppPreferences.totalCases = ""
+                    AppPreferences.newCases = ""
+                    AppPreferences.newDeathCases = ""
+                    AppPreferences.totalDeathCases = ""
+                    AppPreferences.recoveredCases = ""
+                    AppPreferences.isSubscribed = subscribeFlag
+
+
+                }
+
+                    }
+                        }
+        }
+
+        val workManager = WorkManager.getInstance()
 
     private var ccp:CountryCodePicker?=null
 
@@ -25,7 +53,6 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         window.setLayout(1200, 1400)
-
         ccp = findViewById(R.id.country_code_picker)
         ccp!!.setOnCountryChangeListener(this)
         val oneHourBtn = findViewById(R.id.oneHour) as RadioButton
@@ -33,7 +60,7 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val fiveHoursBtn = findViewById(R.id.fiveHours) as RadioButton
         val oneDayBtn = findViewById(R.id.oneDay) as RadioButton
         val confirmBtn = findViewById(R.id.confirmationBtn) as Button
-        if(subscribeFlag == false){
+        if(subscribeFlag == true){
             confirmBtn.text = "UNSUBSCRIBE"
         }
 
@@ -44,7 +71,18 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             if (countryName != null && confirmBtn.text == "SUBSCRIBE" ) {
                 if (oneHourBtn.isChecked) {
                     workManager.cancelAllWork()
-                    sendWorkRequest(1L)
+//                    sendWorkRequest(1L)
+                    subscribeFlag = true
+
+                    val saveRequest =
+                        PeriodicWorkRequestBuilder<WorkerNotification>(15, TimeUnit.MINUTES)
+                            .build()
+
+                    workManager.enqueueUniquePeriodicWork(
+                        WorkerNotification.work,
+                        ExistingPeriodicWorkPolicy.REPLACE,
+                        saveRequest
+                    )
                     finish()
                 } else if (twoHoursBtn.isChecked) {
                     workManager.cancelAllWork()
@@ -66,9 +104,11 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             }
             if ( confirmBtn.text == "UNSUBSCRIBE" ) {
                 workManager.cancelAllWork()
-                subscribeFlag = true
+                subscribeFlag = false
+         checkSharedPref(subscribeFlag)
                 finish()
             }
+
         }
 
     }
@@ -80,18 +120,10 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     }
 
   fun sendWorkRequest(num: Long){
-      subscribeFlag = false
-//      val constraints = Constraints.Builder()
-//          .setRequiredNetworkType(NetworkType.CONNECTED)
-//          .apply {
-//              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                  setRequiresDeviceIdle(true)
-//              }
-//          }
-//          .build()
+      subscribeFlag = true
+
       val saveRequest =
           PeriodicWorkRequestBuilder<WorkerNotification>(num, TimeUnit.HOURS)
-//              .setConstraints(constraints)
               .build()
 
       workManager.enqueueUniquePeriodicWork(
@@ -99,5 +131,8 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
           ExistingPeriodicWorkPolicy.REPLACE,
           saveRequest
       )
+
+
   }
+
 }

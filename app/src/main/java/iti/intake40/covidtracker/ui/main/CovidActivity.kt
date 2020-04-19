@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -15,39 +16,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import iti.intake40.covidtracker.AppPreferences
 import iti.intake40.covidtracker.R
+import iti.intake40.covidtracker.Work.WorkerNotification
 import iti.intake40.covidtracker.db.model.CovidModel
 import iti.intake40.covidtracker.network.Network
+import iti.intake40.covidtracker.ui.main.SettingsActivity.Companion.checkSharedPref
 import kotlinx.android.synthetic.main.activity_covid.*
 
 
 class CovidActivity : AppCompatActivity() {
     private lateinit var covidViewModel: CovidViewModel
-   // lateinit var searchView: SearchView
-    // lateinit var covidViewModel:CovidViewModel
-   // var dataList = ArrayList<CovidModel>()
+
+
     lateinit var recyclerView: RecyclerView
-           var flag=true
-   // var adapter = CovidAdapter(dataList , this)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        //covidViewModel = ViewModelProviders.of(this).get(covidViewModel!!::class.java)
+
         super.onCreate(savedInstanceState)
-        //searchView = findViewById(R.id.search_view)
-
+        AppPreferences.init(this)
         setContentView(R.layout.activity_covid)
+        checkSharedPref(AppPreferences.isSubscribed)
         recyclerView = findViewById(R.id.recycle_view)
-
         covidViewModel = ViewModelProvider(this).get(CovidViewModel::class.java)
-
-      //while (flag) {
-
-//       if (covidViewModel.alldata.value == null && !Network.checkNetworkState(applicationContext)) {
-//           search_view.setVisibility(View.GONE)
-//           Toast.makeText(applicationContext, "please open the internet at the first time you install the app", Toast.LENGTH_SHORT)
-//               .show()
-//           finish()
-//       }
-       //}
        covidViewModel.alldata.observe(this, Observer { covids ->
 
            // Update the cached copy of the words in the adapter.
@@ -121,5 +113,13 @@ class CovidActivity : AppCompatActivity() {
             }
         })
     }
+
+//private fun isSubscribed(boolean:Boolean){
+//    when(boolean){
+//        true-> AppPreferences.
+//
+//    }
+
+
 
 }
