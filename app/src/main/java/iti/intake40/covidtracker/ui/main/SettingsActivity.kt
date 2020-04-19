@@ -9,6 +9,7 @@ import com.hbb20.CountryCodePicker
 import iti.intake40.covidtracker.AppPreferences
 import iti.intake40.covidtracker.R
 import iti.intake40.covidtracker.Work.WorkerNotification
+import iti.intake40.covidtracker.ui.main.SettingsActivity.Companion.subscribeFlag
 import java.util.concurrent.TimeUnit
 
 
@@ -71,18 +72,7 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             if (countryName != null && confirmBtn.text == "SUBSCRIBE" ) {
                 if (oneHourBtn.isChecked) {
                     workManager.cancelAllWork()
-//                    sendWorkRequest(1L)
-                    subscribeFlag = true
-
-                    val saveRequest =
-                        PeriodicWorkRequestBuilder<WorkerNotification>(15, TimeUnit.MINUTES)
-                            .build()
-
-                    workManager.enqueueUniquePeriodicWork(
-                        WorkerNotification.work,
-                        ExistingPeriodicWorkPolicy.REPLACE,
-                        saveRequest
-                    )
+                    sendWorkRequest(1L)
                     finish()
                 } else if (twoHoursBtn.isChecked) {
                     workManager.cancelAllWork()
@@ -114,10 +104,21 @@ class SettingsActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     }
     override fun onCountrySelected() {
         countryName =ccp!!.selectedCountryName
-        if (countryName == "United States"){
-            countryName = "USA"
+        when(countryName) {
+            "United States" -> countryName = "USA"
+            "United Kingdom" -> countryName = "UK"
+            "Iran, Islamic Republic Of" -> countryName = "Iran"
+            "Russian Federation" -> countryName = "Russia"
+            "South Korea" -> countryName = "S. Korea"
+            "Czech Republic" -> countryName = "Czechia"
+            "United Arab Emirates" -> countryName = "UAE"
+            "Moldova, Republic Of" -> countryName = "Moldova"
+            "Macedonia, The Former Yugoslav Republic Of" -> countryName = "North Macedonia"
+            "Bolivia, Plurinational State Of" -> countryName = "Bolivia"
+
         }
     }
+
 
   fun sendWorkRequest(num: Long){
       subscribeFlag = true
