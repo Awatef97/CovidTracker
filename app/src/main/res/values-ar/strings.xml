@@ -8,6 +8,14 @@
     <string name="DeathCases">عدد الوفيات</string>
     <string name="search">بحث</string>
     <string name="ShowStatistics">عرض الاحصائيات</string>
+    <string name="connectionToast">تأكد من اتصال الانترنت</string>
+    <string name="subscribe">"بامكانك تحديد دوله واحده للحصول علي اشعاراتها"</string>
+    <string name="OneHour">ساعه واحده</string>
+    <string name="fiveHours">٥ ساعات</string>
+    <string name="Default">الافتراضي(ساعتين)</string>
+    <string name="OneDay">يوم واحد</string>
+    <string name="None">لا شئ</string>
+    <string name="Confirm">تأكيد</string>
     <!--Awatef end-->
     <!--shorouk start-->
     <!--shorouk end-->
