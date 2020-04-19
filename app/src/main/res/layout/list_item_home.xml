@@ -16,16 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="7">
+        android:weightSum="9">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-           >
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textView4"
@@ -50,10 +49,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-            android:paddingBottom="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            >
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textView6"
@@ -78,10 +76,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-            android:paddingBottom="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            >
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textView2"
@@ -105,10 +102,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-           >
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textView5"
@@ -132,10 +128,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            >
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/textView"
@@ -159,7 +154,7 @@
             android:id="@+id/statisticsBtn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="4"
             android:background="@color/design_default_color_on_primary"
             android:text="@string/ShowStatistics"
             android:textColor="#009688" />
