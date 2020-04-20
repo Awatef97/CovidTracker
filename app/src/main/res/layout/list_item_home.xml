@@ -150,14 +150,21 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/statisticsBtn"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:background="@color/design_default_color_on_primary"
-            android:text="@string/ShowStatistics"
-            android:textColor="#009688" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/statisticsBtn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:background="@color/design_default_color_on_primary"
+                android:text="@string/ShowStatistics"
+                android:textColor="#009688" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
