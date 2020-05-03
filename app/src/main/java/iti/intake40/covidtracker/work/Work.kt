@@ -1,18 +1,14 @@
-package iti.intake40.covidtracker.Work
+package iti.intake40.covidtracker.work
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import iti.intake40.covidtracker.AppPreferences
-import iti.intake40.covidtracker.R
+import iti.intake40.covidtracker.sharedpref.AppPreferences
+import iti.intake40.covidtracker.sharedpref.SharedPrefChecking
 import iti.intake40.covidtracker.db.model.CovidCountryModel
 import iti.intake40.covidtracker.db.remoteDatabase.CovidClient
-import iti.intake40.covidtracker.ui.main.CovidViewModel
 import iti.intake40.covidtracker.ui.main.SettingsActivity
 import iti.intake40.covidtracker.ui.main.SettingsActivity.Companion.subscribeFlag
 import okhttp3.ResponseBody
@@ -24,7 +20,7 @@ import retrofit2.Response
 import java.util.*
 
 
-class WorkerNotification(context: Context, workerParams: WorkerParameters) : Worker(context,
+class Work(context: Context, workerParams: WorkerParameters) : Worker(context,
     workerParams
 ) {
 
@@ -46,32 +42,6 @@ class WorkerNotification(context: Context, workerParams: WorkerParameters) : Wor
         return ListenableWorker.Result.success()
     }
 
-    fun sendNotification() {
-        val notificationManager =
-            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val channelId = "Work_Manager"
-
-        //If on Oreo then notification required a notification channel.
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "WorkManager",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        val notification = NotificationCompat.Builder(applicationContext, channelId)
-            .setContentTitle(countryTitle)
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText("New Cases " + countryNewCases + "\nNew Deaths " + countryNewDeaths + "\nTotal Cases " + countryTotalCases + "\nTotal Deaths " + countryTotalDeaths + "\nTotal Recovered " + countryTotalRecovered)
-            )
-            .setSmallIcon(R.drawable.ic_launcher_background)
-
-
-        notificationManager.notify(notificationId, notification.build())
-    }
 
     fun getCountryData(country: String) {
         val call: Call<ResponseBody> = CovidClient.getClient.getRowData(country)
@@ -125,8 +95,8 @@ class WorkerNotification(context: Context, workerParams: WorkerParameters) : Wor
                         countryTotalRecovered = model.totalRecovered
                     }
 
+                    SharedPrefChecking.putDataInSharedPref(subscribeFlag,"notify",applicationContext)
 
-                   checkSharedPref(subscribeFlag)
 
 
                 }
@@ -141,33 +111,6 @@ class WorkerNotification(context: Context, workerParams: WorkerParameters) : Wor
 
     }
 
-    fun checkSharedPref(boolean: Boolean) {
-        when (boolean) {
-            true -> if (AppPreferences.totalCases != countryTotalCases || AppPreferences.newCases != countryNewCases || AppPreferences.totalDeathCases != countryTotalDeaths || AppPreferences.newDeathCases != countryNewDeaths || AppPreferences.recoveredCases != countryTotalRecovered) {
-                sendNotification()
-                AppPreferences.countryName = countryTitle
-                AppPreferences.totalCases = countryTotalCases
-                AppPreferences.newCases = countryNewCases
-                AppPreferences.newDeathCases = countryNewDeaths
-                AppPreferences.totalDeathCases = countryTotalDeaths
-                AppPreferences.recoveredCases = countryTotalRecovered
-                AppPreferences.isSubscribed = subscribeFlag
-
-            }
-
-            else -> {
-                AppPreferences.countryName = ""
-                AppPreferences.totalCases = ""
-                AppPreferences.newCases = ""
-                AppPreferences.newDeathCases = ""
-                AppPreferences.totalDeathCases = ""
-                AppPreferences.recoveredCases = ""
-                AppPreferences.isSubscribed = SettingsActivity.subscribeFlag
-
-            }
-
-        }
-    }
 
     fun checkCountryName(str: String?) {
         when (str) {

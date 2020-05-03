@@ -1,10 +1,11 @@
-package iti.intake40.covidtracker
+package iti.intake40.covidtracker.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
-import iti.intake40.covidtracker.Work.WorkerNotification
+import iti.intake40.covidtracker.R
+import iti.intake40.covidtracker.work.Work
 import java.util.*
 
 object Notification {
@@ -25,12 +26,12 @@ object Notification {
         }
 
         val notification = NotificationCompat.Builder(applicationContext, channelId)
-            .setContentTitle(WorkerNotification.countryTitle)
+            .setContentTitle(Work.countryTitle)
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText("New Cases " + WorkerNotification.countryNewCases + "\nNew Deaths " + WorkerNotification.countryNewDeaths + "\nTotal Cases " + WorkerNotification.countryTotalCases + "\nTotal Deaths " + WorkerNotification.countryTotalDeaths + "\nTotal Recovered " + WorkerNotification.countryTotalRecovered)
+                    .bigText("New Cases " + Work.countryNewCases + "\nNew Deaths " + Work.countryNewDeaths + "\nTotal Cases " + Work.countryTotalCases + "\nTotal Deaths " + Work.countryTotalDeaths + "\nTotal Recovered " + Work.countryTotalRecovered)
             )
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.covid)
 
 
         notificationManager.notify(notificationId, notification.build())

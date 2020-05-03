@@ -10,25 +10,24 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import iti.intake40.covidtracker.AppPreferences
+import iti.intake40.covidtracker.sharedpref.AppPreferences
 import iti.intake40.covidtracker.R
+import iti.intake40.covidtracker.sharedpref.SharedPrefChecking
 import iti.intake40.covidtracker.db.model.CovidModel
 import iti.intake40.covidtracker.network.Network
-import iti.intake40.covidtracker.ui.main.SettingsActivity.Companion.checkSharedPref
+//import iti.intake40.covidtracker.ui.main.SettingsActivity.Companion.checkSharedPref
 import kotlinx.android.synthetic.main.activity_covid.*
 
 
 class CovidActivity : AppCompatActivity() {
     private lateinit var covidViewModel: CovidViewModel
-
     lateinit var recyclerView: RecyclerView
-    var flag = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -36,7 +35,10 @@ class CovidActivity : AppCompatActivity() {
         AppPreferences.init(this)
         setContentView(R.layout.activity_covid)
 
-        checkSharedPref(AppPreferences.isSubscribed)
+        SharedPrefChecking.putDataInSharedPref(
+            AppPreferences.isSubscribed,"Set From Shared Pref",applicationContext)
+
+
         recyclerView = findViewById(R.id.recycle_view)
 
         covidViewModel = ViewModelProvider(this).get(CovidViewModel::class.java)

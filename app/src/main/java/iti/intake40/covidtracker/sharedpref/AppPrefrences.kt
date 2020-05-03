@@ -1,4 +1,4 @@
-package iti.intake40.covidtracker
+package iti.intake40.covidtracker.sharedpref
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -16,13 +16,14 @@ object AppPreferences {
     private val Country_Total_Death_Cases = Pair("totalDeathCases", "")
     private val Country_New_Death_Cases = Pair("newDeathCases", "")
     private val Country_Recovered_Cases = Pair("recoveredCases", "")
-    private val IS_Subscribed = Pair("isSubscribed", true)
-
-
+    private val IS_Subscribed = Pair("isSubscribed", false)
 
 
     fun init(context: Context) {
-        preferences = context.getSharedPreferences(NAME, MODE)
+        preferences = context.getSharedPreferences(
+            NAME,
+            MODE
+        )
     }
 
     /**
@@ -35,11 +36,10 @@ object AppPreferences {
         editor.apply()
     }
 
-
-
     var totalCases: String?
         // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getString(Country_Total_Cases.first, Country_Total_Cases.second)
+        get() = preferences.getString(
+            Country_Total_Cases.first, Country_Total_Cases.second)
         // custom setter to save a preference back to preferences file
         set(value) = preferences.edit {
             it.putString(Country_Total_Cases.first, value)
@@ -47,49 +47,43 @@ object AppPreferences {
 
 
     var newCases: String?
-        // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getString(Country_New_Cases.first, Country_New_Cases.second)
-        // custom setter to save a preference back to preferences file
+        get() = preferences.getString(
+            Country_New_Cases.first, Country_New_Cases.second)
         set(value) = preferences.edit {
             it.putString(Country_New_Cases.first, value)
         }
 
     var totalDeathCases: String?
-        // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getString(Country_Total_Death_Cases.first, Country_Total_Death_Cases.second)
-        // custom setter to save a preference back to preferences file
+        get() = preferences.getString(
+            Country_Total_Death_Cases.first, Country_Total_Death_Cases.second)
         set(value) = preferences.edit {
             it.putString(Country_Total_Death_Cases.first, value)
         }
 
     var newDeathCases: String?
-        // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getString(Country_New_Death_Cases.first, Country_New_Death_Cases.second)
-        // custom setter to save a preference back to preferences file
+        get() = preferences.getString(
+            Country_New_Death_Cases.first, Country_New_Death_Cases.second)
         set(value) = preferences.edit {
             it.putString(Country_New_Death_Cases.first, value)
         }
 
     var recoveredCases: String?
-        // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getString(Country_Recovered_Cases.first, Country_Recovered_Cases.second)
-        // custom setter to save a preference back to preferences file
+        get() = preferences.getString(
+            Country_Recovered_Cases.first, Country_Recovered_Cases.second)
         set(value) = preferences.edit {
             it.putString(Country_Recovered_Cases.first, value)
         }
+
     var countryName: String?
-        // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getString(Country_Name.first, Country_Name.second)
-        // custom setter to save a preference back to preferences file
+        get() = preferences.getString(
+            Country_Name.first, Country_Name.second)
         set(value) = preferences.edit {
             it.putString(Country_Name.first, value)
         }
 
     var isSubscribed: Boolean
-        // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getBoolean(IS_Subscribed.first, IS_Subscribed.second)
-
-        // custom setter to save a preference back to preferences file
+        get() = preferences.getBoolean(
+            IS_Subscribed.first, IS_Subscribed.second)
         set(value) = preferences.edit {
             it.putBoolean(IS_Subscribed.first, value)
         }

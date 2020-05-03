@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
-    android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
 
     <com.hbb20.CountryCodePicker
         android:id="@+id/country_code_picker"
-        android:layout_width="420dp"
-        android:layout_height="793dp"
+        android:layout_width="202dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         app:ccpDialog_allowSearch="true"
@@ -23,82 +25,54 @@
         app:ccp_showNameCode="false"
         app:ccp_showPhoneCode="false"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/confirmationBtn"
-            android:layout_width="147dp"
-            android:layout_height="39dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="120dp"
-            android:layout_marginLeft="120dp"
-            android:layout_marginTop="412dp"
-            android:layout_marginEnd="153dp"
-            android:layout_marginRight="153dp"
-            android:text="SUBSCRIBE" />
     </com.hbb20.CountryCodePicker>
 
     <RadioGroup
         android:id="@+id/radio_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_width="369dp"
+        android:layout_height="181dp"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/editText">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:text="You can subscribe on one country and get notification, Please Select how many time you want to see it. "
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/oneHour"
             android:layout_width="147dp"
             android:layout_height="39dp"
-            android:layout_marginTop="52dp"
             android:buttonTint="@color/colorPrimary"
             android:focusableInTouchMode="false"
             android:text="One Hour"
             android:textColor="#000000"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <RadioButton
             android:id="@+id/fiveHours"
-            style="@style/Widget.AppCompat.CompoundButton.RadioButton"
             android:layout_width="147dp"
             android:layout_height="39dp"
-            android:layout_marginTop="12dp"
             android:buttonTint="@color/colorPrimary"
             android:text="5 Hours"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#000000"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton" />
+            app:layout_constraintTop_toBottomOf="@+id/twoHours" />
 
         <RadioButton
             android:id="@+id/twoHours"
             android:layout_width="147dp"
             android:layout_height="39dp"
-            android:layout_marginTop="12dp"
             android:buttonTint="@color/colorPrimary"
             android:checked="true"
             android:focusableInTouchMode="true"
@@ -107,24 +81,76 @@
             android:textColor="#000000"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton4" />
+            app:layout_constraintTop_toBottomOf="@+id/oneHour" />
 
         <RadioButton
             android:id="@+id/oneDay"
-            style="@style/Widget.AppCompat.CompoundButton.RadioButton"
             android:layout_width="147dp"
             android:layout_height="39dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
             android:buttonTint="@color/colorPrimary"
             android:text="One Day"
             android:textColor="#000000"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton5" />
-
+            app:layout_constraintTop_toBottomOf="@+id/fiveHours" />
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="361dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:text="You can subscribe on one country and get notification, Please Select how many time you want to see it. "
+        android:textColor="#009688"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/country_code_picker" />
+
+    <Button
+        android:id="@+id/confirmationBtn"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:background="#009688"
+        android:text="SUBSCRIBE"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#9A2323"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group" />
+
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="365dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="2dp"
+        android:text=" You are subscribed to "
+        android:textColor="#009688"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmationBtn"
+        app:layout_constraintVertical_bias="0.028" />
+
+    <TextView
+        android:id="@+id/countryNametxt"
+        android:layout_width="195dp"
+        android:layout_height="46dp"
+        android:text="Please choose country"
+        android:textColor="@color/redAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="@+id/textView7" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
