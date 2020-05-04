@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
         INSTANCE?.let { database ->
             scope.launch {
                 var covidDao = database.covidDao()
-                covidDao.delete()
+                //covidDao.delete()
             }}}}
 
             companion object {

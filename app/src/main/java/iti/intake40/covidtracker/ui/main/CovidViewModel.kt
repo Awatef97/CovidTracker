@@ -24,7 +24,6 @@ class CovidViewModel(application: Application) :  AndroidViewModel(application) 
                 val covidDao = CovidDataBase.getDatabase(application,context).covidDao()
                 repository = Repository(covidDao)
                 alldata = repository.alldata
-
             }
 
     fun getData(): MutableLiveData<CovidModel>{

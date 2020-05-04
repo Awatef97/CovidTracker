@@ -36,41 +36,75 @@ class CovidActivity : AppCompatActivity() {
         setContentView(R.layout.activity_covid)
 
         SharedPrefChecking.putDataInSharedPref(
-            AppPreferences.isSubscribed,"Set From Shared Pref",applicationContext)
+            AppPreferences.isSubscribed, "Set From Shared Pref", applicationContext
+        )
 
 
         recyclerView = findViewById(R.id.recycle_view)
 
         covidViewModel = ViewModelProvider(this).get(CovidViewModel::class.java)
-
         covidViewModel.alldata.observe(this, Observer { covids ->
 
             // Update the cached copy of the words in the adapter.
             covids?.let {
-                search_view.setVisibility(View.VISIBLE)
+                if(it.isNullOrEmpty()&&!Network.checkNetworkState(applicationContext)){
+                    //search_view.setVisibility(View.GONE)
+                    Toast.makeText(applicationContext, R.string.connectionToast, Toast.LENGTH_SHORT)
+                        .show()
+                }else{
+                    search_view.setVisibility(View.VISIBLE)
 
-                recyclerView.adapter = CovidAdapter(it as MutableList<CovidModel>, this)
+                    recyclerView.adapter = CovidAdapter(it as MutableList<CovidModel>, this)
 
-                recyclerView.layoutManager =
-                    LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                search(search_view, recyclerView.adapter as CovidAdapter)
-
+                    recyclerView.layoutManager =
+                        LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                    search(search_view, recyclerView.adapter as CovidAdapter)
+                }
 
             }
         })
 
 
+   /* if(!Network.checkNetworkState(applicationContext)){
+                covidViewModel.alldata.observe(this, Observer { covids ->
 
-        if (covidViewModel.alldata.value.isNullOrEmpty() && !Network.checkNetworkState(
-                applicationContext
-            )
-        ) {
-            search_view.setVisibility(View.GONE)
-            Toast.makeText(applicationContext, R.string.connectionToast, Toast.LENGTH_SHORT)
-                .show()
+                    // Update the cached copy of the words in the adapter.
+                    covids?.let {
+                        search_view.setVisibility(View.VISIBLE)
 
-            // finish()
+                        recyclerView.adapter = CovidAdapter(it as MutableList<CovidModel>, this)
+
+                        recyclerView.layoutManager =
+                            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                        search(search_view, recyclerView.adapter as CovidAdapter)
+
+
+                    }
+                })
         }
+        else{
+            covidViewModel.getData()
+            covidViewModel.alldata.observe(this, Observer { covids ->
+
+                // Update the cached copy of the words in the adapter.
+                covids?.let {
+                    search_view.setVisibility(View.VISIBLE)
+
+                    recyclerView.adapter = CovidAdapter(it as MutableList<CovidModel>, this)
+
+                    recyclerView.layoutManager =
+                        LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                    search(search_view, recyclerView.adapter as CovidAdapter)
+
+
+                }
+            })
+        }*/
+
+
+
+
+
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(
             ContextCompat.getColor(
